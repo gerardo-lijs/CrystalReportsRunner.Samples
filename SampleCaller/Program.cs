@@ -1,5 +1,7 @@
 using LijsDev.CrystalReportsRunner.Core;
 
+using SampleCaller;
+
 // ========== Initializing Engine ===========
 
 // Method 1: With Connection string
@@ -31,25 +33,30 @@ engine.ViewerSettings.ToolPanelView = ReportViewerToolPanelViewType.None;
 engine.ViewerSettings.ShowCloseButton = false;
 engine.ViewerSettings.EnableRefresh = false;
 
+
 engine.ViewerSettings.SetUICulture(Thread.CurrentThread.CurrentUICulture);
 
 // ========== Showing the Report ===========
 
-// Method 1: Full Control
-var report = new Report("SampleReport.rpt", "Sample Report")
+var dataset = new PersonDataset();
+
+var personsTable = dataset.Tables["Persons"];
+
+for (int i = 0; i < 100; i++)
 {
-    Connection = CrystalReportsConnectionFactory.CreateSqlConnection(".\\SQLEXPRESS", "CrystalReportsSample")
+    var row = personsTable!.NewRow();
+    row["Name"] = $"Person {i + 1}";
+    personsTable.Rows.Add(row);
+}
+
+// Method 1: Full Control
+var report = new Report("DatasetReport.rpt", "Sample Report")
+{
+    DataSets = new List<System.Data.DataSet> { dataset }
 };
-report.Parameters.Add("ReportFrom", new DateTime(2022, 01, 01));
-report.Parameters.Add("UserName", "Gerardo");
+
+report.Parameters.Add("ComputerName", Environment.MachineName);
 
 await engine.ShowReport(report);
-
-// Method 2: Easy
-await engine.ShowReport("SampleReport.rpt", "Sample Report", new Dictionary<string, object>
-{
-    { "ReportFrom", new DateTime(2022, 01, 01) },
-    { "UserName",  "Gerardo" },
-});
 
 Console.ReadKey();

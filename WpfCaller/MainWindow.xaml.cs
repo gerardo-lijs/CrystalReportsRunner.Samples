@@ -166,6 +166,8 @@ public partial class MainWindow : Window
     {
         var report = new Report("SampleReport.rpt", "Sample Report")
         {
+            // TODO: Make sure you create a database and configure the connection string here.
+            // Please refer to Schema.sql for the database schema.
             Connection = CrystalReportsConnectionFactory.CreateSqlConnection(".\\SQLEXPRESS", "CrystalReportsSample")
         };
         report.Parameters.Add("ReportFrom", new DateTime(2022, 01, 01));
