@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LijsDev.CrystalReportsRunner.13.0.32.x64" Version="1.1.0" />
+    <PackageReference Include="LijsDev.CrystalReportsRunner.13.0.32.x64" Version="1.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
   </ItemGroup>
 
