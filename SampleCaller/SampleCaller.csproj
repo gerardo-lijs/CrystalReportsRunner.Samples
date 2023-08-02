@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Muhammad Azeez and Gerardo Lijs</Authors>
     <Company>LijsDev</Company>
-    <Copyright>Copyright © LijsDev 2022</Copyright>
+    <Copyright>Copyright © LijsDev 2022-2023</Copyright>
     <ReferencePath>C:\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win64_x64\dotnet\</ReferencePath>
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="LijsDev.CrystalReportsRunner.13.0.32.x64" Version="1.2.0" />
+	  <PackageReference Include="LijsDev.CrystalReportsRunner.13.0.34.x64" Version="1.2.2" />
 	  <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
   </ItemGroup>
 
