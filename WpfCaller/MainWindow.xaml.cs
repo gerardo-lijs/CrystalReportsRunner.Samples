@@ -181,12 +181,13 @@ public partial class MainWindow : Window
 
     private static Report CreateReport()
     {
-        var report = new Report("SampleReport.rpt", "Sample Report")
+        var report = new Report("SampleReport_WithSubreportParameters.rpt", "Sample Report")
         {
             Connection = CrystalReportsConnectionFactory.CreateSqlConnection(".\\SQLEXPRESS", "CrystalReportsSample")
         };
         report.Parameters.Add("ReportFrom", new DateTime(2022, 01, 01));
         report.Parameters.Add("UserName", "Muhammad");
+        report.Parameters.Add("SampleParamSubName", "4321");
         return report;
     }
 
