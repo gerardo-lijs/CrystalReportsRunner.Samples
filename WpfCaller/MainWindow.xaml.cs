@@ -181,13 +181,41 @@ public partial class MainWindow : Window
 
     private static Report CreateReport()
     {
-        var report = new Report("SampleReport_WithSubreportParameters.rpt", "Sample Report")
+        var report = new Report("SampleReport.rpt", "Sample Report")
         {
             Connection = CrystalReportsConnectionFactory.CreateSqlConnection(".\\SQLEXPRESS", "CrystalReportsSample")
         };
         report.Parameters.Add("ReportFrom", new DateTime(2022, 01, 01));
         report.Parameters.Add("UserName", "Muhammad");
-        report.Parameters.Add("SampleParamSubName", "4321");
+        return report;
+    }
+
+    /// <summary>
+    /// Simple sample report without database connection, sending the DataSet with int/string/byte[] fields.
+    /// </summary>
+    private static Report CreateReportDataSet()
+    {
+        var report = new Report("SampleReportDataset.rpt", "Sample Report Dataset");
+        report.Parameters.Add("ReportFrom", new DateTime(2022, 01, 01));
+        report.Parameters.Add("UserName", "Gerardo");
+
+        // Create dataset
+        var sampleReportDataset = new System.Data.DataSet();
+
+        // Create table
+        var personsTable = new System.Data.DataTable("Persons");
+        sampleReportDataset.Tables.Add(personsTable);
+        personsTable.Columns.Add("Id", typeof(int));
+        personsTable.Columns.Add("Name", typeof(string));
+        personsTable.Columns.Add("Age", typeof(int));
+        personsTable.Columns.Add("PersonImage", typeof(byte[]));
+
+        // Add rows
+        personsTable.Rows.Add(1, "Gerardo", "42", System.IO.File.ReadAllBytes("sampleImage1.jpg"));
+        personsTable.Rows.Add(2, "Khalifa", "24", System.IO.File.ReadAllBytes("sampleImage2.jpg"));
+
+        report.DataSets.Add(sampleReportDataset);
+
         return report;
     }
 
@@ -251,5 +279,54 @@ public partial class MainWindow : Window
     {
         _lastLocation = e.WindowLocation;
         Debug.WriteLine($"Form Closed for {e.ReportFileName}. Location: ({e.WindowLocation.Left}, {e.WindowLocation.Top}). Size: {e.WindowLocation.Width} x {e.WindowLocation.Height}.");
+    }
+
+    private async void ShowDataSetButton_Click(object sender, RoutedEventArgs e)
+    {
+        LoadingBorder.Visibility = Visibility.Visible;
+
+        try
+        {
+            EnsureEngineAvailable();
+            if (_engineInstance is null) throw new InvalidProgramException($"{nameof(_engineInstance)} can't be null here after calling EnsureEngineAvailable.");
+
+            ConfigureWindowLocationAndSize();
+
+            // Show
+            var report = CreateReportDataSet();
+            var windowHandle = new WindowHandle(new WindowInteropHelper(this).EnsureHandle());
+            await _engineInstance.ShowReport(report, owner: windowHandle);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.ToString());
+        }
+        finally
+        {
+            LoadingBorder.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private async void PrintReportButton_Click(object sender, RoutedEventArgs e)
+    {
+        LoadingBorder.Visibility = Visibility.Visible;
+
+        try
+        {
+            EnsureEngineAvailable();
+            if (_engineInstance is null) throw new InvalidProgramException($"{nameof(_engineInstance)} can't be null here after calling EnsureEngineAvailable.");
+
+            // Export
+            var report = CreateReport();
+            await _engineInstance.Print(report);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.ToString());
+        }
+        finally
+        {
+            LoadingBorder.Visibility = Visibility.Collapsed;
+        }
     }
 }
