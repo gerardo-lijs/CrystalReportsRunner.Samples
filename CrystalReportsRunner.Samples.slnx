@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="SampleCaller/SampleCaller.csproj" />
+  <Project Path="WpfCaller/WpfCaller.csproj" />
+</Solution>
