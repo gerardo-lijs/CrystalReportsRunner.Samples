@@ -5,6 +5,7 @@ Sample .NET 7 apps using Crystal Reports Runner NuGet packages. For more informa
 - The samples reference v13.0.34 x64 of Crystal Reports, if you're using a different version change the referenced NuGet package.
 
 ## Samples
+The purpose of this repo is to showcase the final integration’s user experience in a simplified way. The main repo and its sample app are more complex, so this one provides a clearer, more focused demonstration.
 
 ### Sample Caller
 
